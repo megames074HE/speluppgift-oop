@@ -45,7 +45,7 @@ class MainGame:
             else:
                 current_word.append("_")
 
-        print("NOGUI_DEBUG word: ", current_word)
+        print("\nNOGUI_DEBUG word: ", current_word)
         print("NOGUI_DEBUG wrong guessed letters: ", self.__guessed_wrong)
         print("NOGUI_DEBUG tries left: ", self.try_count() - self.__wrong_guess_count)
 
@@ -89,10 +89,15 @@ class MainGame:
             self.handle_guess(guessed_letter)
 
         if self.game_won():
-            print("NOGUI_DEBUG won! Play again?") # TODO: add play again thingymabop here.
+            print("NOGUI_DEBUG won! Play again?") # TODO: add play again thingamabob here.
+        else:
+            print("NOGUI_DEBUG lost! Play again?")
 
 
 
+class DebugGameMode(MainGame):
+    def try_count(self):
+        return 1
 
 class EasyGamemode(MainGame):
 
@@ -118,6 +123,6 @@ name = "test"
 
 player = Player(name)
 
-game = EasyGamemode(player)
+game = DebugGameMode(player)
 
 game.play()
