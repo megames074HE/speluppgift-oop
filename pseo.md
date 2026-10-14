@@ -16,4 +16,14 @@ loop:
     Om spelaren gissade ordet vinner spelaren och får poäng. Mängd poäng är beroende på svårighetsgrad och felgissade ord
 
     Om spelaren inte gissa ord i alla försök spelaren fick visar en game over screen och hamna spelaren tillbaks till start skärmen.
+    
+    efter en runda kommer spelaren välja om den vill spela igen
+
+    om spelaren väljer ja kommer loopen upprepa och kommmer det väljas ett nytt ord och spelaren får välja en annan svårighet. 
+
+    om spelaren väljer nej avslutar loopen
+
+efter loopen:
+
+    spelaren visas en skärm med antal poäng den fick under spelet
 
