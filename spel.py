@@ -32,7 +32,7 @@ class MainGame:
 
     def __init__(self, player):
         self.__player = player
-        self.__word = random.choice(["test", "appel", "banaan", "volvo"]) #maybe gonna add json file with alot of words
+        self.__word = random.choice(["hund", "äpple", "banan", "volvo", "katt", "bord", "arbetslöshetsförsäkring", "bil", "trygg", "försäkring", "hus", "internationalisering", "sverige", "python"]) #maybe gonna add json file with alot of words
         self.__guessed = []
         self.__guessed_wrong = []
         self.__wrong_guess_count = 0
@@ -109,7 +109,8 @@ class MainGame:
             self.__player.set_score(points+bonus_points)
             print("NOGUI_DEBUG won! Play again? [Y/N]")
         else:
-            print("NOGUI_DEBUG lost! Play again? [Y/N]")
+            print("NOGUI_DEBUG lost! The word was: ", self.__word)
+            print("NOGUI_DEBUG Play again? [Y/N]")
 
         choice = input("")
 
