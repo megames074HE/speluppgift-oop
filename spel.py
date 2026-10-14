@@ -1,11 +1,12 @@
 import random
-
+import os
 
 
 ## BECOMES AN GUI LATER
 
 alphabet = "abcdefghijklmnopqrstuvwxyzäåö"
 
+Play = True
 
 class Player:
     def __init__(self, name):
@@ -27,14 +28,18 @@ class Player:
 
 class MainGame:
 
+    global Play
+
     def __init__(self, player):
         self.__player = player
         self.__word = random.choice(["test", "appel", "banaan", "volvo"]) #maybe gonna add json file with alot of words
-        print("DEBUG word: ", self.__word) #REMOVE LATER
         self.__guessed = []
         self.__guessed_wrong = []
         self.__wrong_guess_count = 0
 
+
+    def clear_screen(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
 
     def current_state(self):
         current_word = []
@@ -45,9 +50,11 @@ class MainGame:
             else:
                 current_word.append("_")
 
+        #print("DEBUG word: ", self.__word)  # REMOVE LATER
         print("\nNOGUI_DEBUG word: ", current_word)
         print("NOGUI_DEBUG wrong guessed letters: ", self.__guessed_wrong)
         print("NOGUI_DEBUG tries left: ", self.try_count() - self.__wrong_guess_count)
+        print("NOGUI_DEBUG points: ", self.__player.get_score())
 
     def handle_guess(self, letter):
         letter = letter.strip().lower()
@@ -79,19 +86,37 @@ class MainGame:
         return self.game_won() or self.__wrong_guess_count >= self.try_count()
 
     def play(self):
-        print("DEBUG max tries: ", self.try_count())
+
+        global Play
+
+        #print("DEBUG max tries: ", self.try_count())
 
         while not self.game_ended():
+
+            self.clear_screen()
 
             self.current_state()
 
             guessed_letter = self.__player.guess()
             self.handle_guess(guessed_letter)
 
+        self.clear_screen()
         if self.game_won():
-            print("NOGUI_DEBUG won! Play again?") # TODO: add play again thingamabob here.
+
+            points = 10 - self.try_count()
+            bonus_points = 8 - self.__wrong_guess_count
+            print("NOGUI_DEBUG points earned this round. round points: ", points, " bonus points: ", bonus_points)
+            self.__player.set_score(points+bonus_points)
+            print("NOGUI_DEBUG won! Play again? [Y/N]")
         else:
-            print("NOGUI_DEBUG lost! Play again?")
+            print("NOGUI_DEBUG lost! Play again? [Y/N]")
+
+        choice = input("")
+
+        self.clear_screen()
+
+        if choice.lower() != "y":
+            Play = False
 
 
 
@@ -119,10 +144,28 @@ class HardGamemode(MainGame):
 
 ## ONLY FOR TESTING PURPOSES. WILL BE DOING INPUTS LATER
 
-name = "test"
 
+name = input("NOGUI_DEBUG Enter player name: ")
 player = Player(name)
 
-game = DebugGameMode(player)
+while Play:
 
-game.play()
+    mode = input("NOGUI_DEBUG Enter player mode 1 = easy, 2 = medium, 3 = hard: ")
+
+
+    if mode == "1":
+        game = EasyGamemode(player)
+
+    elif mode == "2":
+        game = MediumGamemode(player)
+
+    elif mode == "3":
+        game = HardGamemode(player)
+
+    else:
+        game = DebugGameMode(player)
+
+    game.play()
+
+points = player.get_score()
+print("NOGUI_DEBUG total earned points: ", points)
